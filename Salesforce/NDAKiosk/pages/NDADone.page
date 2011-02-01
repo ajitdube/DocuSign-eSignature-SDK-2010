@@ -26,7 +26,7 @@
 -->      
   </apex:form>
   <script type="text/javascript">
-    var url = "http://docusign.devope.cs1.force.com/ndakiosk/";
+    var url = "{!$Site.CurrentSiteUrl}" + 'ndawelcome';
     setTimeout("location.href = '"+url+"';",7000);
   </script>
 

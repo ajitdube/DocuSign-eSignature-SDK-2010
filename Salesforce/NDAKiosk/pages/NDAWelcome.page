@@ -16,29 +16,27 @@
     <apex:form >
         <table>
             <tr>
-                <td>
-                    <h2>Your Name:</h2>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <apex:inputField styleClass="textBox" value="{!signer.Name}"/>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h2>Your Email:</h2>
-                </td>
+                <td><h2>Your Name:</h2></td>
                 <td></td>
             </tr>
             <tr>
-                <td>
-                    <apex:inputField styleClass="textBox" value="{!signer.Email__c}" />
-                </td>
+                <td><apex:inputField styleClass="textBox" value="{!signer.Name}"/></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><h2>Your Email:</h2></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><apex:inputField styleClass="textBox" value="{!signer.Email__c}" /></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><h2>Your Company:</h2></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><apex:inputField styleClass="textBox" value="{!signer.Company__c}" /></td>
                 <td></td>
             </tr>
         </table>

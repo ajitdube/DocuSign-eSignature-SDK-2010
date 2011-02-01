@@ -12,16 +12,23 @@ public with sharing class NDAKioskController {
     private String envelopeId;
     private string[] recipients;
 
-    // Demo
-    private String accountId = 'TODO: replace with API Account ID';
-    private String userId = 'TODO: replace with API user id or email';
-    private String password = 'TODO: replace with login password';
-    private String integratorsKey = 'TODO: replace with API Activated Integrators Key';
+    //=============================
+    //===== Strings to modify =====
+    private String accountId = ''; // TODO: Put DocuSign API Account ID Here
+    private String userId = ''; // TODO: Put your DocuSign member email here
+    private String password = ''; // TODO: Put your DocuSign member password here
+    private String integratorsKey = ''; // TODO: Put your DocuSign API Integrators Key here
+    private String templateId = ''; // TODO: Put your Template ID here
+    private String devHost = 'https://na3.salesforce.com/'; // TODO: Salesforce host URL
+    //=============================
+
     private String webServiceUrl = 'https://demo.docusign.net/api/3.0/dsapi.asmx';
-    private String templateId = 'TODO: replace with GUID of NDA Template (from Docs)';
 
+    // to force asking for the pages
+    private PageReference ndaDonePage = Page.ndaDone;
+    private PageReference ndapopPage = Page.ndaPop;
 
-//===== Ctor =====            
+    //===== Ctor =====            
     public NDAKioskController(ApexPages.StandardController controller) {
         // init signer
         id = ApexPages.currentPage().getParameters().get('id');
@@ -34,7 +41,8 @@ public with sharing class NDAKioskController {
                     validate_method__c, 
                     selected_name__c,
                     Here_to_see__c,
-                    Purpose_of_visit__c
+                    Purpose_of_visit__c,
+                    Company__c
                 FROM NDA_Signer__c
                 WHERE id = :id];
         }
@@ -115,10 +123,15 @@ public with sharing class NDAKioskController {
         fd1.TabLabel = 'Full Name 1';
         fd1.Value = recipient.UserName;
         
+        DocuSignAPI.TemplateReferenceFieldDataDataValue fd2 = new DocuSignAPI.TemplateReferenceFieldDataDataValue();
+        fd2.TabLabel = 'Company 3';
+        fd2.Value = signer.Company__c;
+        
         ndaTemplate.FieldData = new DocuSignAPI.TemplateReferenceFieldData();
         ndaTemplate.FieldData.DataValues = new DocuSignAPI.ArrayOfTemplateReferenceFieldDataDataValue();
-        ndaTemplate.FieldData.DataValues.DataValue = new DocuSignAPI.TemplateReferenceFieldDataDataValue[1];
+        ndaTemplate.FieldData.DataValues.DataValue = new DocuSignAPI.TemplateReferenceFieldDataDataValue[2];
         ndaTemplate.FieldData.DataValues.DataValue[0] = fd1;
+        ndaTemplate.FieldData.DataValues.DataValue[1] = fd2;
 
         // create array of template references
         DocuSignAPI.ArrayOfTemplateReference templateReferences = new DocuSignAPI.ArrayOfTemplateReference();
@@ -214,7 +227,7 @@ public with sharing class NDAKioskController {
     private String getPopURL() {
         String popURL = Site.getCurrentSiteUrl();
         if (popURL == null) {
-            popURL = 'https://c.cs1.visual.force.com/apex/';
+            popURL = devHost + 'apex/';
         } 
         return popURL + 'ndaPop';
     }
@@ -350,6 +363,7 @@ public with sharing class NDAKioskController {
         signer.Name = '';
         signer.Email__c = '';
         signer.Here_to_see__c = '';
+        signer.Company__c = '';
     }
 
 //===== ndaNotifyReception Control Methods =====
@@ -432,9 +446,6 @@ public with sharing class NDAKioskController {
 //===== ndaPop Control Methods =====
     // Perform actions on page open
     public void ndaPopPageOpen() {
-	// just putting this in to force class compiler
-	// to ask for the page
-	PageReference ndapop = Page.ndaPop;
     }
 
 //===== ndaDone Control Methods =====
@@ -443,3 +454,4 @@ public with sharing class NDAKioskController {
         envelopeId = ApexPages.currentPage().getParameters().get('envelopeid');
     } 
 }
+
