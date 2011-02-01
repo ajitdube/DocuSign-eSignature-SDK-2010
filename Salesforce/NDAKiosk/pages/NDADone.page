@@ -11,25 +11,10 @@
     Thanks for checking in. Please take a seat, the person you are here to see will be with you shortly. 
     Please remember to check out at the end of your visit.
   </p>
-  <apex:form >
-<!--
-      <table>
-          <tr class="top">
-              <td></td>
-              <td class="right"><apex:commandButton styleClass="linkButton" action="{!ndaRestart}" value="Start Over"/></td>
-          </tr>
-      </table>
-      <p>Other interesting things</p>
-      <h2><apex:outputLink value="https://github.com/docusign/DocuSign-eSignature-SDK/tree/master/Salesforce/">Get the Source Code</apex:outputLink></h2>
-      <h2><apex:outputLink value="http://www.docusign.com/developers-center/get-free-developer-account">Get a DocuSign Developer Sandbox</apex:outputLink></h2>
-      <h2><apex:outputLink value="http://www.docusign.com/p/APIGuide/APIGuide.htm">Learn more about DocuSign API</apex:outputLink></h2>
--->      
-  </apex:form>
   <script type="text/javascript">
     var url = "{!$Site.CurrentSiteUrl}" + 'ndawelcome';
     setTimeout("location.href = '"+url+"';",7000);
   </script>
-
 
 </apex:page>
 
