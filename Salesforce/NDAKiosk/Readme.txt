@@ -22,6 +22,5 @@ Static resources are provided in the sample that can be changed to the
 company's branding; including the icon that appears when the app is
 bookmarked to the iPad Home Screen!
 
-Refer to Implementing_an_NDA_Signing_iPad_Application_Using_SalesForce.pdf
-for a walkthrough on how to implement this from a Salesforce Dev
-account.
+Refer to Readme.pdf for a walkthrough on how to implement this from a 
+Salesforce Dev account.
