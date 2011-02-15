@@ -28,7 +28,8 @@
                 <div class="money-repeat">&nbsp;</div>
             </div>
             <div class="full-content">
-              <iframe src="<c:out value="${model.token}" />" scrolling="no" width="100%" height="100%" frameborder="0">
+              <iframe src="<c:out value="${model.token}" />"
+              scrolling="yes" width="100%" height="800" frameborder="0">
 	          </iframe>
             </div>
           </div>
