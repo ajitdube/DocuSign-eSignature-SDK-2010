@@ -60,10 +60,19 @@ function login($user, $password){
 
 	global $creds_wsdl, $creds_options;
 
+		// get Integrator Key from credentials.ini
+    $ini_array = parse_ini_file("integrator.php");
+    $IntegratorsKey = $ini_array["IntegratorsKey"];
+    if (!isset($IntegratorsKey) || $IntegratorsKey == "") {
+        $_SESSION["errorMessage"] = "Please make sure integrator key is set (in integrator.php).";
+        header("Location: error.php");
+        die();
+    }
+
 	$credService = new CredentialService($creds_wsdl, $creds_options);
 
 	$login = new Login();
-	$login->Email=$user;
+	$login->Email="[" . $IntegratorsKey . "]" . $user;
 	$login->Password=$password;
 
 	try {
