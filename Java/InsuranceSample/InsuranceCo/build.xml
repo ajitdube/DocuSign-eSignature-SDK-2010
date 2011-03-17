@@ -28,6 +28,7 @@
 		<copy file="${src.dir}/customInsuranceApplication.pdf" todir="${build.dir}/${web.inf.dir}/classes" />
 		<copy file="${src.dir}/log4j.properties" todir="${build.dir}/${web.inf.dir}/classes" />
 		<copy file="${src.dir}/org.apache.cxf.Logger" todir="${build.dir}/${web.inf.dir}/classes" />
+		<copy file="${conf.dir}/config.properties" todir="${build.dir}/${web.inf.dir}/classes" />
 	</target>
 	
 	<target name="war" depends="build">

@@ -19,15 +19,13 @@
     <!-- [AUTHENTICATION] Enable only one type of Authentication factory below.  -->
 
 	<!-- Authentication: UsernameToken - Logged in User -->
-    <bean id="docusignWebserviceFactory" class="net.docusign.ws3_0.DocusignWebserviceFactory" />
+<!--    <bean id="docusignWebserviceFactory" class="net.docusign.ws3_0.DocusignWebserviceFactory" />-->
 
 	<!-- Authentication: Integrators Key -->
-	<!--
     <bean id="docusignWebserviceFactory" class="net.docusign.ws3_0.DocusignWebserviceFactory">
         <property name="integratorsId" value="${docusign.integratorKey.id}" />
         <property name="email" value="${docusign.integratorKey.email}" />
     </bean>
-    -->
     
     <!-- Authentication: X509 - Integrators Key -->
     <!--

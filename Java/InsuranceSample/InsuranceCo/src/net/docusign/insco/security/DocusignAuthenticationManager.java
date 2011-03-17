@@ -10,10 +10,12 @@ security requirements of the application.
 THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED 
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR 
 FITNESS FOR A PARTICULAR PURPOSE.
-*/
+ */
 package net.docusign.insco.security;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import net.docusign.credential.api.ArrayOfAccount.Account;
 import net.docusign.model.User;
@@ -28,49 +30,80 @@ import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 
 /**
- * Spring security {@link AuthenticationManager} that uses the {@link DocusignLoginService} (Credential API) in order to lookup your accounts by email/password.
+ * Spring security {@link AuthenticationManager} that uses the
+ * {@link DocusignLoginService} (Credential API) in order to lookup your
+ * accounts by email/password.
  */
 public class DocusignAuthenticationManager implements AuthenticationManager {
-	private DocusignLoginService docusignLoginService;
+    private static final String CONFIG_PROPERTIES_CLASSPATH_LOCATION = "/config.properties";
+    private DocusignLoginService docusignLoginService;
 
-	public void setDocusignLoginService(DocusignLoginService docusignLoginService) {
-		this.docusignLoginService = docusignLoginService;
+    public void setDocusignLoginService(
+	    DocusignLoginService docusignLoginService) {
+	this.docusignLoginService = docusignLoginService;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.security.AuthenticationManager#authenticate(org.
+     * springframework.security.Authentication)
+     */
+    public Authentication authenticate(Authentication auth)
+	    throws AuthenticationException {
+
+	Properties configProps = new Properties();
+	try {
+	    configProps.load(getClass().getResourceAsStream(CONFIG_PROPERTIES_CLASSPATH_LOCATION));
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.springframework.security.AuthenticationManager#authenticate(org.springframework.security.Authentication)
-	 */
-	public Authentication authenticate(Authentication auth) throws AuthenticationException {
-		List<Account> accounts = docusignLoginService.lookupAccountsByEmailAndPassword(auth.getPrincipal().toString(), auth.getCredentials().toString());
-		
-		if(accounts.isEmpty()) {
-			throw new BadCredentialsException("Username/Password does not match an account.");
-		}
-		
-		if(accounts.size() > 1) {
-			return createAuthenticationToken((String) auth.getPrincipal(), (String) auth.getCredentials(), "ROLE_MULTIPLE_ACCOUNT", new MultipleAccountInformation(accounts));
-		}
-		else {
-			User validUser = new User().loadFromAccount(accounts.get(0));
-			validUser.setPassword((String) auth.getCredentials());
-			
-			return createAuthenticationToken((String) auth.getPrincipal(), (String) auth.getCredentials(), "ROLE_USER", validUser);
-		}
+	List<Account> accounts = docusignLoginService.lookupAccountsByEmailAndPassword(
+			configProps.getProperty("docusign.integratorKey.id"),
+			auth.getPrincipal().toString(), 
+			auth.getCredentials().toString());
+
+	if (accounts.isEmpty()) {
+	    throw new BadCredentialsException(
+		    "Username/Password does not match an account.");
 	}
-	
-	/**
-	 * Create the authentication token.
-	 * 
-	 * @param username the username
-	 * @param password the password
-	 * @param grantedAuthority the granted role
-	 * @param tokenDetails the extra information provided for consumption
-	 * @return the authentication token
-	 */
-	protected Authentication createAuthenticationToken(String username, String password, String grantedAuthority, Object tokenDetails) {
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, new GrantedAuthority[] {new GrantedAuthorityImpl(grantedAuthority)});
-		authToken.setDetails(tokenDetails);
-		
-		return authToken;
+
+	if (accounts.size() > 1) {
+	    return createAuthenticationToken((String) auth.getPrincipal(),
+		    (String) auth.getCredentials(), "ROLE_MULTIPLE_ACCOUNT",
+		    new MultipleAccountInformation(accounts));
+	} else {
+	    User validUser = new User().loadFromAccount(accounts.get(0));
+	    validUser.setPassword((String) auth.getCredentials());
+
+	    return createAuthenticationToken((String) auth.getPrincipal(),
+		    (String) auth.getCredentials(), "ROLE_USER", validUser);
 	}
+    }
+
+    /**
+     * Create the authentication token.
+     * 
+     * @param username
+     *            the username
+     * @param password
+     *            the password
+     * @param grantedAuthority
+     *            the granted role
+     * @param tokenDetails
+     *            the extra information provided for consumption
+     * @return the authentication token
+     */
+    protected Authentication createAuthenticationToken(String username,
+	    String password, String grantedAuthority, Object tokenDetails) {
+	UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+		username, password,
+		new GrantedAuthority[] { new GrantedAuthorityImpl(
+			grantedAuthority) });
+	authToken.setDetails(tokenDetails);
+
+	return authToken;
+    }
 }

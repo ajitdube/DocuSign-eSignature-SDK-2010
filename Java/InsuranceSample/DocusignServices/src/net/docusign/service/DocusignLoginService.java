@@ -28,7 +28,7 @@ public interface DocusignLoginService {
 	 * @param password the password
 	 * @return the list of accounts
 	 */
-	public List<Account> lookupAccountsByEmailAndPassword(String username, String password);
+	public List<Account> lookupAccountsByEmailAndPassword(String integratorsKey, String username, String password);
 	
 	/**
      * Check whether the credential webservice is operational by issuing a ping request.

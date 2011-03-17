@@ -39,8 +39,8 @@ public class DocusignLoginServiceImpl implements DocusignLoginService {
 	/* (non-Javadoc)
 	 * @see net.docusign.service.DocusignLoginService#lookupAccountsByEmailAndPassword(java.lang.String, java.lang.String)
 	 */
-	public List<Account> lookupAccountsByEmailAndPassword(String username, String password) {
-		LoginResult loginResult = credentialSoap.login(username, password);
+	public List<Account> lookupAccountsByEmailAndPassword(String integratorsKey, String username, String password) {
+		LoginResult loginResult = credentialSoap.login("[" + integratorsKey + "]" + username, password);
 
 		if(loginResult.getAccounts() != null) {
 		    List<Account> accounts = loginResult.getAccounts().getAccount();
