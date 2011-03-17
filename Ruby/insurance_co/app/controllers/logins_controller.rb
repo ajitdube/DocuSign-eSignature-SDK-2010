@@ -3,7 +3,7 @@ class LoginsController < ApplicationController
   end
   
   def create
-    result = Docusign::Base.credentials(params[:email], params[:password], Docusign::Config[:credential_endpoint_url])
+    result = Docusign::Base.credentials('['+Docusign::Config[:integrators_key]+']'+params[:email], params[:password], Docusign::Config[:credential_endpoint_url])
     
     if result.success?
       # Store the email and password- we'll need them for the rest of the session
