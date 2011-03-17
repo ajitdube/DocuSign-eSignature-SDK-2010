@@ -88,11 +88,13 @@ public class LogUtil {
     }
     
     public static String logFoundAccount(Account account, String password) {
-        return String.format(FOUND_ACCOUNT, account.getAccountID(), account.getAccountName(), account.getUserID(), account.getUserName(), password);
+//        return String.format(FOUND_ACCOUNT, account.getAccountID(), account.getAccountName(), account.getUserID(), account.getUserName(), password);
+        return String.format(FOUND_ACCOUNT, "xxx", account.getAccountName(), "xxx", "xxx", "xxx");
     }
     
     public static String logNoAccounts(String userName, String password) {
-        return String.format(NO_ACCOUNTS, userName, password);
+//        return String.format(NO_ACCOUNTS, userName, password);
+        return String.format(NO_ACCOUNTS, "xxx", "xxx");
     }
     
     public static String logDeferredSigningBegin() {
@@ -116,7 +118,8 @@ public class LogUtil {
     }
     
     public static String logRequestSenderTokenRequest(String accountId, String envelopeId, String callbackUrl) {
-        return String.format(REQUEST_SENDER_TOKEN_REQUEST, accountId, envelopeId, callbackUrl);
+//        return String.format(REQUEST_SENDER_TOKEN_REQUEST, accountId, envelopeId, callbackUrl);
+        return String.format(REQUEST_SENDER_TOKEN_REQUEST, "xxx", envelopeId, callbackUrl);
     }
     
     public static String logRequestSenderTokenResponse(String token) {
@@ -136,7 +139,8 @@ public class LogUtil {
     }
     
     public static String logEnvelopeAccountId(String accountId) {
-        return String.format(ENVELOPE_ACCOUNT_ID, accountId);
+//        return String.format(ENVELOPE_ACCOUNT_ID, accountId);
+        return String.format(ENVELOPE_ACCOUNT_ID, "xxx");
     }
     
     public static String logDocument(Document document) {
@@ -144,7 +148,8 @@ public class LogUtil {
     }
     
     public static String logRecipient(Recipient recipient) {
-        return String.format(RECIPIENT, recipient.getType(), recipient.getID(), recipient.getUserName(), recipient.getEmail());
+//        return String.format(RECIPIENT, recipient.getType(), recipient.getID(), recipient.getUserName(), recipient.getEmail());
+        return String.format(RECIPIENT, recipient.getType(), recipient.getID(), recipient.getUserName(), "xxx");
     }
     
     public static String logTab(Tab tab) {
@@ -228,7 +233,8 @@ public class LogUtil {
     }
     
     public static String logRequestTemplatesRequest(String accountId) {
-        return String.format(REQUEST_TEMPLATES_REQUEST, accountId);
+//        return String.format(REQUEST_TEMPLATES_REQUEST, accountId);
+        return String.format(REQUEST_TEMPLATES_REQUEST, "xxx");
     }
     
     public static String logRequestTemplatesResponse(EnvelopeTemplates envelopeTemplates) {

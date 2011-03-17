@@ -82,6 +82,7 @@ public class DocusignEmbeddedSigningServiceImpl extends AuthenticatedDocusignSer
 		signatureInfo.setSignatureName(model.getUser().getFullName());
 
 		recipientSigner.setSignatureInfo(signatureInfo);
+		recipientSigner.setRequireIDLookup(model.getIdCheck() == null ? Boolean.FALSE : model.getIdCheck());
 		
 		//Set value for tab labels present in the model.
 		List<Tab> tabs = envelope.getTabs().getTab();
@@ -93,8 +94,6 @@ public class DocusignEmbeddedSigningServiceImpl extends AuthenticatedDocusignSer
 			
 			log.info(LogUtil.logTab(tab));
 		}
-
-		recipientSigner.setRequireIDLookup(model.getIdCheck() == null ? Boolean.FALSE : model.getIdCheck());
 
 		if(Util.isNotBlank(model.getAccessCode())) {
 		    recipientSigner.setAccessCode(model.getAccessCode());
