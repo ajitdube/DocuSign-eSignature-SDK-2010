@@ -64,7 +64,8 @@ public class LogUtil {
     }
     
     public static String logEnvelopeAccountId(String accountId) {
-        return String.format(ENVELOPE_ACCOUNT_ID, accountId);
+//        return String.format(ENVELOPE_ACCOUNT_ID, accountId);
+        return String.format(ENVELOPE_ACCOUNT_ID, "xxx");
     }
     
     public static String logDocument(Document document) {
@@ -72,7 +73,8 @@ public class LogUtil {
     }
     
     public static String logRecipientSigner(Recipient recipient) {
-        return String.format(RECIPIENT_SIGNER, recipient.getID(), recipient.getUserName(), recipient.getEmail());
+//        return String.format(RECIPIENT_SIGNER, recipient.getID(), recipient.getUserName(), recipient.getEmail());
+        return String.format(RECIPIENT_SIGNER, recipient.getID(), recipient.getUserName(), "xxx");
     }
     
     public static String logTab(Tab tab) {

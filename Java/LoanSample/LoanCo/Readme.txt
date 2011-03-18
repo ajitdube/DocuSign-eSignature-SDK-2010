@@ -28,7 +28,7 @@ Configuration
 
 For UsernameToken authentication: 
 
--	Uncomment the Authentication: Username Token section of
+-	Uncomment the Authentication: Integrators Key section of
 	LoanCo/WEB-INF/docusign-servlet.xml. 
 -	Set the following properties in LoanCo/src/config.properties: 
 	-	[REPLACE WITH DOCUSIGN INTEGRATORS KEY] 
@@ -38,7 +38,7 @@ For UsernameToken authentication:
 
 For X509 (ssl certificate) authentication: 
 
--	Uncomment the Authentication: Username Token + X509 section of
+-	Uncomment the Authentication: X509 with Integrators Ke section of
 	LoanCo/WEBINF/ docusign-servlet.xml. 
 -	Set the following properties in LoanCo/src/config.properties: 
 	-	[REPLACE WITH DOCUSIGN INTEGRATORS KEY] 

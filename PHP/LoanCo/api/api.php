@@ -54,7 +54,7 @@ if(!isset($_SESSION["CredentialsSet"])){
 
 	// login
 	$login = new Login();
-	$login->Email=$username;
+	$login->Email="[" . $IntegratorsKey . "]" . $username;
 	$login->Password=$password;
 
 	try {
