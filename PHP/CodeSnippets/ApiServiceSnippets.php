@@ -30,9 +30,9 @@ include_once("include/creds.php");
 //=============================================================================
 
 // TODO: put in a test recipient email
-$_apiRecipient1Email = "craig.smith.docusign@gmail.com";
+$_apiRecipient1Email = "";
 // TODO: put in users name
-$_apiUserName = "Craig Smith";
+$_apiUserName = "";
 
 //=============================================================================
 // Set up the API
@@ -107,18 +107,6 @@ function createEnvelopeWithDocumentAndTabs($envelope) {
 //=============================================================================
 // Snippets
 //=============================================================================
-
-
-/**
- * minimalLogin illustrates the simplest way to authenticate. Does not use any
- * of our helper classes
- * @return SoapClient
- */
-function minimalLogin() {
-    $credClient = new SoapClient('https://demo.docusign.net/API/3.0/Credential.asmx?WSDL',
-    array('login' => "jocrag@gmail.com", 'password' => "blahblah"));
-    return $credClient;
-}
 
 /**
  * The Ping API method enables API users make a simple call to the API service
@@ -239,7 +227,10 @@ function createAndSendEnvelopeSample() {
     // Send
     $response = $api->CreateAndSendEnvelope($createAndSendEnvelopeparams);
 
-    return $response;
+    return $api->__getLastRequestHeaders() . "\n=====\n" .
+        $api->__getLastRequest() . "\n=====\n" .
+        $api->__getLastResponseHeaders() . "\n=====\n" .
+        $api->__getLastResponse();
 }
 
 /**
@@ -254,7 +245,7 @@ function createEnvelopeFromTemplatesSample() {
     $templateRef = new TemplateReference();
     $templateRef->TemplateLocation = TemplateLocationCode::Server;
         // TODO: Replace string with the GUID of a template already uploaded to your account
-    $templateRef->Template = "BF36E813-A73C-4AB4-B250-1DC5DEB0C6EA";
+    $templateRef->Template = "";
 
     // Construct the envelope info
     $envInfo = new EnvelopeInformation();
@@ -291,7 +282,7 @@ function createEnvelopeFromTemplatesAndFormsSample() {
     $recipient1 = new Recipient();
     $recipient1->UserName = "SignerOne";
     // TODO: replace email string with actual email
-    $recipient1->Email = "craig.smith.docusign@gmail.com";
+    $recipient1->Email = "";
     $recipient1->Type = RecipientTypeCode::Signer;
     $recipient1->RequireIDLookup = FALSE;
     $recipient1->RoutingOrder = 1;
@@ -301,7 +292,7 @@ function createEnvelopeFromTemplatesAndFormsSample() {
     $recipient2 = new Recipient();
     $recipient2->UserName = "SignerTwo";
     // TODO: replace email string with actual email
-    $recipient2->Email = "craig.smith.test1@gmail.com";
+    $recipient2->Email = "";
     $recipient2->Type = RecipientTypeCode::Signer;
     $recipient2->RequireIDLookup = FALSE;
     $recipient2->RoutingOrder = 2;
@@ -1248,11 +1239,11 @@ function transferEnvelopeSample() {
     // Request the envelope specified to be transferred to the account specified
     $transferEnvelopeparams = new TransferEnvelope();
         // TODO: replace string with account ID GUID that you will transfer the envelope to
-    $transferEnvelopeparams->AccountID = "086f3f1c-5475-4f92-b909-5dbf552fa641";
+    $transferEnvelopeparams->AccountID = "";
         // TODO: replace string with envelope ID GUID that will be transferred
-    $transferEnvelopeparams->EnvelopeID = "B3FD51A482FC4654817F6B216D0AA6BA";
+    $transferEnvelopeparams->EnvelopeID = "";
         // TODO: replace string with user ID GUID that you will transfer the envelope to
-    $transferEnvelopeparams->UserID = "craig.smith@docusign.com";
+    $transferEnvelopeparams->UserID = "";
     $response = $api->TransferEnvelope($transferEnvelopeparams);
 
     return $response;
@@ -1328,6 +1319,22 @@ function voidEnvelopeSample() {
     $voidEnvelopeparams->EnvelopeID = $status->EnvelopeID;
     $voidEnvelopeparams->Reason = "void envelope sample";
     $response = $api->VoidEnvelope($voidEnvelopeparams);
+
+    return $response;
+}
+
+function loginSample() {
+    global $UserID, $Password, $IntegratorsKey;
+    $options = array(
+    	'location'=>"https://demo.docusign.net/api/3.0/credential.asmx",
+        'trace'=>true,
+        'features'=>SOAP_SINGLE_ELEMENT_ARRAYS);
+    $credApi = new CredentialService("api/CredentialService.wsdl", $options);
+    $loginParams = new Login();
+    $loginParams->Email = "[" . $IntegratorsKey . "]" . $UserID;
+    $loginParams->Password = $Password;
+
+    $response = $credApi->Login($loginParams);
 
     return $response;
 }

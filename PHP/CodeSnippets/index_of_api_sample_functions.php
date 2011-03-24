@@ -56,5 +56,6 @@ include_once 'ApiServiceSnippets.php';
 //print_r2(updateAddressBookItemsSample());
 //print_r2(uploadTemplateSample());
 //print_r2(voidEnvelopeSample());
+//print_r2(loginSample());
 ?>
 
