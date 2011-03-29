@@ -41,28 +41,24 @@ $api = new APIService($api_wsdl, $api_options);
 // set credentials on the api object - if we have an integrator key then we prepend that to the UserID
 $api->setCredentials("[" . $IntegratorsKey . "]" . $_SESSION["UserID"], $_SESSION["Password"]);
 
-$RequestStatusesParams = new RequestStatuses();
-/*
-$RequestStatusesParams->EnvelopeStatusFilter->UserInfo->UserName = $_SESSION["UserName"];
-$RequestStatusesParams->EnvelopeStatusFilter->UserInfo->Email = $_SESSION["Email"];
-$RequestStatusesParams->EnvelopeStatusFilter->AccountId = $_SESSION["AccountID"];
-$RequestStatusesParams->EnvelopeStatusFilter->Statuses->Status = "Any";
-*/
-$RequestStatusParams = new RequestStatus();
-$RequestStatusParams->EnvelopeID = $_SESSION["EnvelopeID"];
+$envFoud = false;
+if (isset($_SESSION["EnvelopeID"]) && $_SESSION["EnvelopeID"] != '') {
+    $envFound = true;
+    $RequestStatusParams = new RequestStatus();
+    $RequestStatusParams->EnvelopeID = $_SESSION["EnvelopeID"];
 
-try{
-	$RequestStatusResponse = $api->RequestStatus($RequestStatusParams);
-	addToLog("API Call - RequestStatus Request", '<pre>' . xmlpp($api->_lastRequest,true) . '</pre>');
-	addToLog("API Call - RequestStatus Response", '<pre>' . xmlpp($api->__getlastResponse(),true) . '</pre>');
+    try{
+    	$RequestStatusResponse = $api->RequestStatus($RequestStatusParams);
+    	addToLog("API Call - RequestStatus Request", '<pre>' . xmlpp($api->_lastRequest,true) . '</pre>');
+    	addToLog("API Call - RequestStatus Response", '<pre>' . xmlpp($api->__getlastResponse(),true) . '</pre>');
 
-} catch (SoapFault $fault){
-	$_SESSION["errorMessage"] = $fault;
-	$_SESSION["lastRequest"] = $api->_lastRequest;
-	header("Location: error.php");
-	die();
+    } catch (SoapFault $fault){
+    	$_SESSION["errorMessage"] = $fault;
+    	$_SESSION["lastRequest"] = $api->_lastRequest;
+    	header("Location: error.php");
+    	die();
+    }
 }
-
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -128,17 +124,18 @@ try{
                     </thead>
                     <tbody>
                         <tr>
-                           <td align="left"><?php echo($RequestStatusResponse->RequestStatusResult->EnvelopeID);?></td>
-                           <td align="left">Autombile Insurance Rider</td>
-                           <td align="left"><?php echo($RequestStatusResponse->RequestStatusResult->Status);?></td>
+                        	<?php
+                        	    if ($envFound == true) {
+                        	        echo("<td align='left'>" . $RequestStatusResponse->RequestStatusResult->EnvelopeID . "</td>");
+                        	        echo("<td align='left'>Autombile Insurance Rider</td>");
+                        	        echo("<td align='left'>" . $RequestStatusResponse->RequestStatusResult->Status . "</td>");
+                        	    }
+                        	    else {
+                        	        echo("<td align='left' colspan=3>No Applications Sent</td>");
+                        	    }
+                        	?>
                        </tr>
 
-                    <?php /*
-                        foreach ($RequestStatusResponse->RequestStatusesResult->EnvelopeStatuses->EnvelopeStatus as $EnvelopeStatusResult) {
-                            if ($EnvelopeStatusResult->Subject == "InsuranceCo Auto Rider") {
-                            }
-                        }   */
-                    ?>
                    </tbody>
                 </table>
             </span>
