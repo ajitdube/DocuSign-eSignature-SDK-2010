@@ -6,6 +6,7 @@ public with sharing class NDAKioskController {
     public string tokenURL {get; set;}
     public string validateType {get; set;}
     public string reasonVisit {get; set;}
+    public string signOutEmail {get; set;}
     
     private string id;    // id of current signer object
     private String auth;
@@ -42,7 +43,9 @@ public with sharing class NDAKioskController {
                     selected_name__c,
                     Here_to_see__c,
                     Purpose_of_visit__c,
-                    Company__c
+                    Company__c,
+                    Sign_In__c,
+                    Sign_Out__c
                 FROM NDA_Signer__c
                 WHERE id = :id];
         }
@@ -325,6 +328,10 @@ public with sharing class NDAKioskController {
         signer.validate_method__c = validateType;
         signer.purpose_of_visit__c = reasonVisit;
         
+        // set sign-in time and clear sign-out time
+        signer.Sign_In__c = datetime.now();
+        signer.Sign_Out__c = null;
+        
         
         signer.selected_name__c = signer.name;
         try {
@@ -364,6 +371,13 @@ public with sharing class NDAKioskController {
         signer.Email__c = '';
         signer.Here_to_see__c = '';
         signer.Company__c = '';
+    }
+    
+    // sign out
+    public PageReference signOutFromWelcome() {
+        PageReference nextWindow = page.ndasignout;
+        nextWindow.setRedirect(true);
+        return nextWindow;
     }
 
 //===== ndaNotifyReception Control Methods =====
@@ -452,6 +466,52 @@ public with sharing class NDAKioskController {
     // Perform actions on page open
     public void ndaDonePageOpen() {
         envelopeId = ApexPages.currentPage().getParameters().get('envelopeid');
-    } 
+    }
+    
+//===== ndaSignOut Control Methods =====
+    // Perform actions on page open
+    public void ndaSignOutPageOpen() {
+        string email = ApexPages.currentPage().getParameters().get('email');
+        if (email != null) {
+            errmsg = 'The email you entered: ' + email + ' cannot be found. Please try again or notify the receptionist.';
+        }
+    }
+        
+    // sign out
+    public PageReference signOut() {
+        NDA_signer__c outSigner;
+        PageReference nextPage = page.ndadonesignout;
+
+        try {
+            outSigner = [SELECT id, name, 
+                    Email__c,
+                    Sign_In__c,
+                    Sign_Out__c
+                FROM NDA_Signer__c
+                WHERE Email__c = :signOutEmail];
+        }
+        catch (Exception e) {
+            outSigner = null;
+            // note that if page.ndasignout has an email address as a parameter
+            // then it assumes the signout email is invalid
+            nextPage = page.ndasignout;
+        }
+        
+        if (outSigner != null) {
+            outSigner.sign_out__c = datetime.now();
+            update outSigner;
+        }
+    
+        nextPage.getParameters().put('email', signOutEmail);
+        nextPage.setRedirect(true);            
+        return nextPage;
+    }
+ 
+    // return to ndawelcome
+    public PageReference returnFromSignOut() {
+        PageReference welcomePage = page.ndawelcome;
+        welcomePage.setRedirect(true);
+        return welcomePage;
+    }
 }
 

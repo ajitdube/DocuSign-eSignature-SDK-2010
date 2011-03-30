@@ -46,7 +46,7 @@
         </apex:selectRadio>
         <table>
             <tr><td><h2>Here to see:</h2></td></tr>
-            <tr><td><apex:inputField styleClass="textBox" value="{!signer.Here_to_see__c}" /></td></tr>
+            <tr><td><apex:inputField styleClass="textBox" value="{!signer.here_to_see__c}" /></td></tr>
         </table>
         
         <p>Purpose of visit</p>
@@ -57,7 +57,8 @@
         <table class="top">
             <tr>
                 <td class="left"><apex:commandButton styleClass="greenButton" action="{!eSign}" value="Enter"/></td>
-                <td class="right"><apex:commandButton styleClass="linkButton" action="{!clearWelcomeFields}" value="Clear All"/></td>
+                <td class="middle"><apex:commandButton styleClass="greenButton" action="{!clearWelcomeFields}" value="Clear All"/></td>
+                <td class="right"><apex:commandButton styleClass="redButton" action="{!signOutFromWelcome}" value="Sign Out"/></td>
             </tr>
         </table>
         {!errmsg}

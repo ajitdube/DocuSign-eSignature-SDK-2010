@@ -6,10 +6,9 @@
      <meta names="apple-mobile-web-app-status-bar-style" content="black" />
      <link rel="apple-touch-icon" sizes="72x72" href="{!URLFOR($Resource.ndaStyles, 'icon_ipad.png')}" />
 
-  <h1>You have completed checking in.</h1>
+  <h1>Checked Out</h1>
   <p class="done">
-    Thanks for checking in. Please take a seat, the person you are here to see will be with you shortly. 
-    Please remember to check out at the end of your visit by touching the <b>Sign Out</b> button.
+    Thanks for checking out. Have a great day!
   </p>
   <script type="text/javascript">
     var url = "{!$Site.CurrentSiteUrl}" + 'ndawelcome';

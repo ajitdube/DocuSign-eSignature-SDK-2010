@@ -49,6 +49,12 @@ p {
     font-size:               1.3em;
     padding:                 0.3em;
 }
+.redButton {
+    border-radius:           10px;
+    font-size:               1.3em;
+    padding:                 0.3em;
+    background-color:        red;
+}
 /*.linkButton {
     background:inherit;
     cursor:pointer;
@@ -107,10 +113,22 @@ td.left {
     border-right:solid;
     border-width:thin;
 }
+td.middle {
+    padding-left:1em;
+    padding-right:1em;
+    border-right:solid;
+    border-width:thin;
+}
 td.right {
     padding-left:1em;
 }
 table.top {
     padding-top:20px;
 }
-
+p.done {
+    font-size:1.25em;
+}
+p.errmsg {
+    font-size:1.25em;
+    color:red;
+}
