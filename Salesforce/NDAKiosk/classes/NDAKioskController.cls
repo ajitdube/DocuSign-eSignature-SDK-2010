@@ -479,27 +479,26 @@ public with sharing class NDAKioskController {
         
     // sign out
     public PageReference signOut() {
-        NDA_signer__c outSigner;
+        List <NDA_signer__c> outSigners;
         PageReference nextPage = page.ndadonesignout;
 
         try {
-            outSigner = [SELECT id, name, 
-                    Email__c,
-                    Sign_In__c,
+            outSigners = [SELECT id, name, 
                     Sign_Out__c
                 FROM NDA_Signer__c
                 WHERE Email__c = :signOutEmail];
         }
         catch (Exception e) {
-            outSigner = null;
-            // note that if page.ndasignout has an email address as a parameter
-            // then it assumes the signout email is invalid
             nextPage = page.ndasignout;
         }
         
-        if (outSigner != null) {
-            outSigner.sign_out__c = datetime.now();
-            update outSigner;
+        if (! outSigners.isEmpty()) {
+            for (NDA_signer__c outSigner : outSigners) {
+                if (outSigner.sign_out__c == null) {
+                    outSigner.sign_out__c = datetime.now();
+                    update outSigner;
+                }
+            }
         }
     
         nextPage.getParameters().put('email', signOutEmail);
@@ -514,4 +513,3 @@ public with sharing class NDAKioskController {
         return welcomePage;
     }
 }
-
