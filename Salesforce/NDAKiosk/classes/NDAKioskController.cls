@@ -20,7 +20,7 @@ public with sharing class NDAKioskController {
     private String password = ''; // TODO: Put your DocuSign member password here
     private String integratorsKey = ''; // TODO: Put your DocuSign API Integrators Key here
     private String templateId = ''; // TODO: Put your Template ID here
-    private String devHost = 'https://na3.salesforce.com/'; // TODO: Salesforce host URL
+    private String devHost = 'https://na10.salesforce.com/'; // TODO: Salesforce host URL
     //=============================
 
     private String webServiceUrl = 'https://demo.docusign.net/api/3.0/dsapi.asmx';
@@ -106,10 +106,23 @@ public with sharing class NDAKioskController {
         roleAssignment.RoleName = recipient.RoleName;
         roleAssignment.RecipientID = recipient.ID;
         
+        //
+        // create a carbon copy of the recipient to ensure that they get a 
+        // pdf of the signed NDA
+        // giving a signer a copy of the document is important to be compliant
+        // with the ESIGN legislature
+        DocuSignAPI.Recipient recipient2 = new DocuSignAPI.Recipient();
+        recipient2.ID = 2;
+        recipient2.Type_x = 'CarbonCopy';
+        recipient2.RoutingOrder = 2;
+        recipient2.Email = signer.Email__c;
+        recipient2.UserName = signer.selected_name__c;
+        
         // Create array of recipients
         DocuSignAPI.ArrayOfRecipient1 signers = new DocuSignAPI.ArrayOfRecipient1();
-        signers.Recipient = new DocuSignAPI.Recipient[1];
+        signers.Recipient = new DocuSignAPI.Recipient[2];
         signers.Recipient[0] = recipient;
+        signers.Recipient[1] = recipient2;
         
         // Create object for the NDA server-side template
         DocuSignAPI.TemplateReference ndaTemplate = new DocuSignAPI.TemplateReference();
