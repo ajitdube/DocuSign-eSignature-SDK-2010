@@ -1,6 +1,6 @@
 DocuSign Web Services API 3.5 SDK
 
-DEPRECIATED:
+DEPRECATED:
 Please use https://github.com/docusign/DocuSign-eSignature-SDK
 
 ===========================================================================
