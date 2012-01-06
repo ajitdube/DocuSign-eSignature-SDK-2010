@@ -1,4 +1,8 @@
 DocuSign Web Services API 3.5 SDK
+
+DEPRECIATED:
+Please use https://github.com/docusign/DocuSign-eSignature-SDK
+
 ===========================================================================
 
 The DocuSign Web Services API provides methods that allow developers to
