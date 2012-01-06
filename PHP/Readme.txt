@@ -1,4 +1,8 @@
 DocuSign Web Services API 3.5 SDK PHP Samples
+
+DEPRECIATED:
+Please use https://github.com/docusign/DocuSign-eSignature-SDK
+
 ===========================================================================
 
 System requirements for PHP samples:
