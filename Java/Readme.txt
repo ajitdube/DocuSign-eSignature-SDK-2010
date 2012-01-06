@@ -1,6 +1,8 @@
 Readme.txt for Docusign SDK Java samples
 
-DEPRECIATED
+DEPRECIATED:
+Please use https://github.com/docusign/DocuSign-eSignature-SDK
+
 
 ===========================================================================
 
