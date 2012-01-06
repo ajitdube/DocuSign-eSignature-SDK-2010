@@ -1,4 +1,7 @@
 Readme.txt for Docusign SDK Java samples
+
+DEPRECIATED
+
 ===========================================================================
 
 System Requirements:
