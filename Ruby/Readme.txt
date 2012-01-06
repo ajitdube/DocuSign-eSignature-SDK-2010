@@ -1,5 +1,8 @@
 Readme.txt for Docusign SDK Ruby samples
 
+DEPRECIATED:
+Please use https://github.com/docusign/DocuSign-eSignature-SDK
+
 System Requirements:
 -	Ruby 1.8.6+
 
