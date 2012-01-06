@@ -1,4 +1,9 @@
 Readme.txt for Docusign SDK MS.NET samples
+
+DEPRECIATED:
+Please use https://github.com/docusign/DocuSign-eSignature-SDK
+
+
 ===========================================================================
 
 System requirements for Microsoft .NET samples:
